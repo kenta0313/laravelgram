@@ -1,43 +1,50 @@
-<x-guest-layout>
-    <x-jet-authentication-card>
-        <x-slot name="logo">
-            <x-jet-authentication-card-logo />
-        </x-slot>
+@extends('layouts.app')
+@include('footer')
+@section('content')
+<div class="main">
+  <div class="card devise-card">
+    <div class="form-wrap">
+      <div class="form-group text-center">
+        <h2 class="logo-img mx-auto"></h2>
+        <p class="text-secondary">友達の写真や動画をチェックしよう</p>
+      </div>
+      <form method="POST" action="{{ route('register') }}">
+        {{ csrf_field() }}
+        <div class="form-group">
+          <input class="form-control" placeholder="メールアドレス" autocomplete="email" type="email" name="email" value="{{ old('email') }}" required>
+        </div>
+        @if ($errors->has('email'))
+            <span class="help-block">
+                <strong>{{ $errors->first('email') }}</strong>
+            </span>
+        @endif
+        <div class="form-group">
+          <input class="form-control" placeholder="ユーザーネーム" type="text" name="name" value="{{ old('name') }}" required autofocus>
+        </div>
 
-        <x-jet-validation-errors class="mb-4" />
+        <div class="form-group">
+          <input class="form-control" placeholder="パスワード" autocomplete="off" type="password" name="password" required>
+        </div>
+        @if ($errors->has('password'))
+            <span class="help-block">
+                <strong>{{ $errors->first('password') }}</strong>
+            </span>
+        @endif
+        <div class="form-group">
+          <input class="form-control" placeholder="パスワードの確認" autocomplete="off" type="password" name="password_confirmation" required>
+        </div>
 
-        <form method="POST" action="{{ route('register') }}">
-            @csrf
+        <div class="actions">
+          <input type="submit" name="commit" value="登録する" class="btn btn-primary w-100">
+        </div>
+      </form>
+      <br>
 
-            <div>
-                <x-jet-label for="name" value="{{ __('Name') }}" />
-                <x-jet-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            </div>
-
-            <div class="mt-4">
-                <x-jet-label for="email" value="{{ __('Email') }}" />
-                <x-jet-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required />
-            </div>
-
-            <div class="mt-4">
-                <x-jet-label for="password" value="{{ __('Password') }}" />
-                <x-jet-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
-            </div>
-
-            <div class="mt-4">
-                <x-jet-label for="password_confirmation" value="{{ __('Confirm Password') }}" />
-                <x-jet-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
-                <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('login') }}">
-                    {{ __('Already registered?') }}
-                </a>
-
-                <x-jet-button class="ml-4">
-                    {{ __('Register') }}
-                </x-jet-button>
-            </div>
-        </form>
-    </x-jet-authentication-card>
-</x-guest-layout>
+      <p class="devise-link">
+        アカウントをお持ちですか？
+        <a href="/users/sign_in">サインインする</a>
+      </p>
+    </div>
+  </div>
+</div>
+@endsection
